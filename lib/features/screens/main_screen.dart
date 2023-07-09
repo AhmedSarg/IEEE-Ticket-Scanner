@@ -18,43 +18,50 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
+    _tabController.addListener(_handleTabChange);
     tabText(1);
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_handleTabChange);
     _tabController.dispose();
     super.dispose();
   }
 
-  late List<Tab> res;
+  late List<Tab> tabs;
 
   void tabText(int ind) {
     if (ind == 0) {
-      res = [
+      tabs = [
         const Tab(icon: Icon(Icons.abc), text: "Unknown Yet"),
         const Tab(icon: Icon(Icons.qr_code)),
         const Tab(icon: Icon(Icons.dashboard))
       ];
     } else if (ind == 1) {
-      res = [
+      tabs = [
         const Tab(icon: Icon(Icons.abc)),
         const Tab(icon: Icon(Icons.qr_code), text: "Scan Ticket"),
         const Tab(icon: Icon(Icons.dashboard))
       ];
     } else if (ind == 2) {
-      res = [
+      tabs = [
         const Tab(icon: Icon(Icons.abc)),
         const Tab(icon: Icon(Icons.qr_code)),
         const Tab(icon: Icon(Icons.dashboard), text: "Dashboard")
       ];
     } else {
-      res = [
+      tabs = [
         const Tab(icon: Icon(Icons.abc)),
         const Tab(icon: Icon(Icons.qr_code)),
         const Tab(icon: Icon(Icons.dashboard))
       ];
     }
+    setState(() {});
+  }
+
+  void _handleTabChange() {
+    tabText(_tabController.index);
     setState(() {});
   }
 
@@ -77,20 +84,17 @@ class _MainScreenState extends State<MainScreen>
             indicatorColor: AppColors.white,
             indicatorWeight: 1,
             controller: _tabController,
-            tabs: res,
+            tabs: tabs,
             onTap: (value) => (tabText(_tabController.index)),
           ),
         ),
-        body: GestureDetector(
-          onHorizontalDragUpdate: (x) => {tabText(_tabController.index)},
-          child: TabBarView(
-            controller: _tabController,
-            children: const [
-              Icon(Icons.abc),
-              Scanner(),
-              Dashboard(),
-            ],
-          ),
+        body: TabBarView(
+          controller: _tabController,
+          children: const [
+            Icon(Icons.abc),
+            Scanner(),
+            Dashboard(),
+          ],
         ),
       ),
     );
