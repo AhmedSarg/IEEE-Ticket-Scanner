@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'features/login_feature/screens/loading_screen.dart';
+import 'features/screens/loading_screen.dart';
 
 void main() {
   runApp(const MyApp());

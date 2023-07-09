@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
-import 'package:ieee_ticket_scanner/features/login_feature/screens/scanner_screen.dart';
+import 'package:ieee_ticket_scanner/features/screens/scanner_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});

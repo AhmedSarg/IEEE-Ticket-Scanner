@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:ieee_ticket_scanner/features/login_feature/model/check_internet.dart';
-import 'package:ieee_ticket_scanner/features/login_feature/screens/main_screen.dart';
+import 'package:ieee_ticket_scanner/features/model/check_internet.dart';
+import 'package:ieee_ticket_scanner/features/screens/main_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
