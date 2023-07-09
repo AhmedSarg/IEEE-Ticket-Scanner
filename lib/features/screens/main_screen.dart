@@ -18,6 +18,7 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
+    tabText(1);
   }
 
   @override
@@ -80,11 +81,17 @@ class _MainScreenState extends State<MainScreen>
             onTap: (value) => (tabText(_tabController.index)),
           ),
         ),
-        body: TabBarView(controller: _tabController, children: const [
-          Icon(Icons.abc),
-          Scanner(),
-          Dashboard(),
-        ]),
+        body: GestureDetector(
+          onHorizontalDragUpdate: (x) => {tabText(_tabController.index)},
+          child: TabBarView(
+            controller: _tabController,
+            children: const [
+              Icon(Icons.abc),
+              Scanner(),
+              Dashboard(),
+            ],
+          ),
+        ),
       ),
     );
   }
