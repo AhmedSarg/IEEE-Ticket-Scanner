@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
+import 'package:ieee_ticket_scanner/features/screens/dashboard_screen.dart';
 import 'package:ieee_ticket_scanner/features/screens/scanner_screen.dart';
 
 class MainScreen extends StatelessWidget {
@@ -41,7 +42,7 @@ class MainScreen extends StatelessWidget {
             body: const TabBarView(children: [
               Icon(Icons.abc),
               Scanner(),
-              Icon(Icons.dashboard),
+              Dashboard(),
             ]),
           )),
     );
