@@ -11,7 +11,7 @@ class AppColors {
   static const Color black = Color(0xff000000);
   static const Color nearlyBlack = Color(0xFF213333);
   static const Color white = Color(0xffFFFFFF);
-  static const Color nearlyWhite = Color(0xFFFEFEFE);
+  static const Color nearlyWhite = Color(0x07000000);
   static const Color error = Color(0xffe61f34); // red color
   static const Color hintColor = Color(0xFF707070);
   static const Color transparent = Color(0x00000000);

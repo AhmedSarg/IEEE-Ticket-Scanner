@@ -27,7 +27,7 @@ class _ScannerState extends State<Scanner> {
 
   Widget ticketCard() {
     if (tickedId == '-1') {
-      return const Text("Attendant Not Found",
+      return const Text("Attendee Not Found",
           style: TextStyle(
               color: AppColors.white, fontSize: 24, fontFamily: "Rubik"));
     } else if (tickedId == '') {
@@ -35,7 +35,7 @@ class _ScannerState extends State<Scanner> {
           style: TextStyle(
               color: AppColors.white, fontSize: 24, fontFamily: "Rubik"));
     } else {
-      return const Text("Attendant Exists",
+      return const Text("Attendee Exists",
           style: TextStyle(
               color: AppColors.white, fontSize: 24, fontFamily: "Rubik"));
     }

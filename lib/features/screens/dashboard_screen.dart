@@ -26,7 +26,7 @@ class _DashboardState extends State<Dashboard> {
                     width: 240,
                     height: 150,
                     decoration: const BoxDecoration(
-                        color: Color(0x07000000),
+                        color: AppColors.nearlyWhite,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(35),
                           topRight: Radius.circular(10),
@@ -60,6 +60,21 @@ class _DashboardState extends State<Dashboard> {
               ],
             ),
           ),
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    "Show All Attendees",
+                    style: TextStyle(fontFamily: 'Rubik', fontSize: 16),
+                  ),
+                )),
+          )
         ],
       ),
     );
