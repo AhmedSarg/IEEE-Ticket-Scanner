@@ -17,18 +17,19 @@ class _ScannerState extends State<Scanner> {
   late AttendeeModel scannedAttendee;
 
   Future scanBarcode() async {
-    String barcodeScanResult;
+    String barcodeScanResult = "";
 
-    //barcodeScanResult = await FlutterBarcodeScanner.scanBarcode(
-    //    "#ffffff", "Cancel", true, ScanMode.QR);
+    barcodeScanResult = await FlutterBarcodeScanner.scanBarcode(
+        "#ffffff", "Cancel", true, ScanMode.QR);
     try {
-      scannedAttendee = await attendeeService.getUser(ticket: ticketId);
+      scannedAttendee =
+          await attendeeService.getUser(ticket: barcodeScanResult);
     } catch (e) {
-      print(e);
+      barcodeScanResult = "-1";
     }
 
     setState(() {
-      //ticketId = barcodeScanResult;
+      ticketId = barcodeScanResult;
     });
   }
 
@@ -42,9 +43,46 @@ class _ScannerState extends State<Scanner> {
           style: TextStyle(
               color: AppColors.white, fontSize: 24, fontFamily: "Rubik"));
     } else {
-      return const Text("Attendee Exists",
-          style: TextStyle(
-              color: AppColors.white, fontSize: 24, fontFamily: "Rubik"));
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              "Name : ${scannedAttendee.name}",
+              style: const TextStyle(
+                  color: AppColors.white, fontSize: 18, fontFamily: "Rubik"),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              "University : ${scannedAttendee.college}",
+              style: const TextStyle(
+                  color: AppColors.white, fontSize: 18, fontFamily: "Rubik"),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              "Ticket ID : ${scannedAttendee.ticketId}",
+              style: const TextStyle(
+                  color: AppColors.white, fontSize: 18, fontFamily: "Rubik"),
+            ),
+          ),
+          const Center(
+            child: Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text("Attendee Exists",
+                  style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 24,
+                      fontFamily: "Rubik")),
+            ),
+          ),
+        ],
+      );
     }
   }
 
@@ -60,7 +98,12 @@ class _ScannerState extends State<Scanner> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                onPressed: scanBarcode,
+                onPressed: () {
+                  setState(() {
+                    ticketId = "";
+                  });
+                  scanBarcode();
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary, elevation: 5),
                 child: const Padding(
@@ -82,17 +125,7 @@ class _ScannerState extends State<Scanner> {
           color: AppColors.primary,
           height: (screen.size.height) / 4,
           width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Text("Name : ${ticketId}"),
-                ],
-              ),
-              Center(child: ticketCardText()),
-            ],
-          ),
+          child: Center(child: ticketCardText()),
         ),
       ],
     );
