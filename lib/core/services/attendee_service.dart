@@ -9,18 +9,14 @@ class AttendeeService {
   Future<AttendeeModel> getUser({required String ticket}) async {
     final dio = Dio();
     await dio.get(baseUrl).then((value) {
-      print("data fetched");
       result = value.data["users"];
     });
     for (final user in result) {
-      print("searching for ticket...");
       if (user["ip"] == ticket /*and not in firebase list*/) {
-        print("found ticket");
         attendeeModel = AttendeeModel.fromJson(user);
         return attendeeModel;
       }
     }
-    print("ticket not found");
     throw Exception();
   }
 }

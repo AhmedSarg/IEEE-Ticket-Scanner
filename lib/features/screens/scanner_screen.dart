@@ -12,7 +12,7 @@ class Scanner extends StatefulWidget {
 }
 
 class _ScannerState extends State<Scanner> {
-  String ticketId = "";
+  String ticketId = "nodata";
   AttendeeService attendeeService = AttendeeService();
   late AttendeeModel scannedAttendee;
 
@@ -39,9 +39,28 @@ class _ScannerState extends State<Scanner> {
           style: TextStyle(
               color: AppColors.white, fontSize: 24, fontFamily: "Rubik"));
     } else if (ticketId == '') {
-      return const Text("Waiting...",
-          style: TextStyle(
-              color: AppColors.white, fontSize: 24, fontFamily: "Rubik"));
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Padding(
+            padding: EdgeInsets.all(15.0),
+            child: Text("Waiting...",
+                style: TextStyle(
+                    color: AppColors.white, fontSize: 24, fontFamily: "Rubik")),
+          ),
+          Padding(
+            padding: EdgeInsets.all(15.0),
+            child: CircularProgressIndicator(
+              color: AppColors.white,
+            ),
+          )
+        ],
+      );
+    } else if (ticketId == "nodata") {
+      return const Center(
+          child: Text("Begin scanning to show data",
+              style: TextStyle(
+                  color: AppColors.white, fontSize: 24, fontFamily: "Rubik")));
     } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +71,7 @@ class _ScannerState extends State<Scanner> {
             child: Text(
               "Name : ${scannedAttendee.name}",
               style: const TextStyle(
-                  color: AppColors.white, fontSize: 18, fontFamily: "Rubik"),
+                  color: AppColors.white, fontSize: 16, fontFamily: "Rubik"),
             ),
           ),
           Padding(
@@ -60,7 +79,7 @@ class _ScannerState extends State<Scanner> {
             child: Text(
               "University : ${scannedAttendee.college}",
               style: const TextStyle(
-                  color: AppColors.white, fontSize: 18, fontFamily: "Rubik"),
+                  color: AppColors.white, fontSize: 16, fontFamily: "Rubik"),
             ),
           ),
           Padding(
@@ -68,12 +87,12 @@ class _ScannerState extends State<Scanner> {
             child: Text(
               "Ticket ID : ${scannedAttendee.ticketId}",
               style: const TextStyle(
-                  color: AppColors.white, fontSize: 18, fontFamily: "Rubik"),
+                  color: AppColors.white, fontSize: 16, fontFamily: "Rubik"),
             ),
           ),
           const Center(
             child: Padding(
-              padding: EdgeInsets.all(15.0),
+              padding: EdgeInsets.all(12.0),
               child: Text("Attendee Exists",
                   style: TextStyle(
                       color: AppColors.white,
@@ -114,10 +133,6 @@ class _ScannerState extends State<Scanner> {
                   ),
                 ),
               ),
-              Text(
-                ticketId + " (test only)",
-                style: const TextStyle(fontFamily: "Rubik", fontSize: 14),
-              )
             ],
           ),
         ),
