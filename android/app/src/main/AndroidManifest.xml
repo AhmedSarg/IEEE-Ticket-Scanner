@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ieee_ticket_scanner">
    <application
-        android:label="ieee_ticket_scanner"
+        android:label="IEEE Ticket Scanner"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

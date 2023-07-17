@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ieee_ticket_scanner/core/services/attendee_service.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_values.dart';
 
@@ -64,7 +65,9 @@ class _DashboardState extends State<Dashboard> {
             width: double.infinity,
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  AttendeeService().getUser(ticket: "");
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary),
                 child: const Padding(
