@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'features/screens/loading_screen.dart';
+import 'package:ieee_ticket_scanner/features/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoadingScreen(),
+      // home: LoadingScreen(),
+      home: MainScreen(),
     );
   }
 }

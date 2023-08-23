@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ieee_ticket_scanner/core/services/attendee_service.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
-import 'package:ieee_ticket_scanner/core/utils/app_values.dart';
+import 'package:ieee_ticket_scanner/features/screens/history_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -66,7 +66,8 @@ class _DashboardState extends State<Dashboard> {
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
                 onPressed: () {
-                  AttendeeService().getUser(ticket: "");
+                  // AttendeeService().getUser(ticket: "");
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const HistoryScreen()));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary),
