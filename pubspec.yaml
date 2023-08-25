@@ -66,6 +66,7 @@ dependencies:
   hidable: ^1.0.4
   font_awesome_flutter: ^10.4.0
   flutter_animated_button: ^2.0.3
+  fl_chart: ^0.62.0
 
 dev_dependencies:
 

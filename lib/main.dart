@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ieee_ticket_scanner/core/bloc/scan_cubit/scan_cubit.dart';
 import 'package:ieee_ticket_scanner/features/screens/main_screen.dart';
 
 void main() {
@@ -10,10 +12,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // home: LoadingScreen(),
-      home: MainScreen(),
+    return BlocProvider<ScanCubit>(
+      create: (context) => ScanCubit(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: MainScreen(),
+      ),
     );
   }
 }
