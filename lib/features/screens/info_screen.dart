@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ieee_ticket_scanner/features/model/attendee_model.dart';
 
-import '../../core/utils/app_colors.dart';
 
 class InfoScreen extends StatefulWidget {
   const InfoScreen({super.key, required this.attendeeModel});
