@@ -3,7 +3,7 @@
 // import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
 // import 'package:connectivity_plus/connectivity_plus.dart';
 // import 'package:ieee_ticket_scanner/core/services/check_internet.dart';
-// import 'package:ieee_ticket_scanner/features/screens/main_temp_screen.dart';
+// import 'package:ieee_ticket_scanner/features/screens/main_screen.dart';
 //
 // class LoadingScreen extends StatefulWidget {
 //   const LoadingScreen({super.key});

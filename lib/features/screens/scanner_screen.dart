@@ -21,9 +21,9 @@ class Scanner extends StatelessWidget {
     barcodeScanResult = await FlutterBarcodeScanner.scanBarcode(
         "#ffffff", "Cancel", true, ScanMode.QR);
     try {
-      BlocProvider.of<ScanCubit>(context).getUser(barcodeScanResult);
+      BlocProvider.of<ScanCubit>(context).getUser(context, barcodeScanResult);
     } catch (e) {
-      BlocProvider.of<ScanCubit>(context).error = "ticket not found";
+      throw Exception();
     }
   }
 
@@ -32,9 +32,9 @@ class Scanner extends StatelessWidget {
 
     return Center(
       child: AnimatedButton(
-        onPress: () {
-          scanBarcode(context);
-          BlocProvider.of<ScanCubit>(context).index = 0;
+        onPress: () async {
+          await scanBarcode(context);
+          tabController.index = 0;
         },
         transitionType: TransitionType.LEFT_BOTTOM_ROUNDER,
         text: 'Scan Ticket',

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>449655289689-gns2rctah7vfci20e55qaaaae5rr5mc3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.449655289689-gns2rctah7vfci20e55qaaaae5rr5mc3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC3GM6gdhJ8QY-YvFWH2jNjQhl3_p3481A</string>
+	<key>GCM_SENDER_ID</key>
+	<string>449655289689</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.ieeeTicketScanner</string>
+	<key>PROJECT_ID</key>
+	<string>ticket-scanner-7a283</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ticket-scanner-7a283.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:449655289689:ios:52d4c11dfa8fb0ede93e48</string>
+</dict>
+</plist>

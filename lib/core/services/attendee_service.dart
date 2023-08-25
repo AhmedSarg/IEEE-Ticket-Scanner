@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ieee_ticket_scanner/features/model/attendee_model.dart';
 
+import '../bloc/scan_cubit/scan_cubit.dart';
 import '../database/api/dio_consumer.dart';
 
 class AttendeeService {
@@ -8,21 +10,7 @@ class AttendeeService {
   late AttendeeModel attendeeModel;
   late List<dynamic> result;
 
-  // Future<AttendeeModel> getUser(String ) async {
-  //   final dio = Dio();
-  //   await dio.get(baseUrl).then((value) {
-  //     result = value.data["users"];
-  //   });
-  //   for (final user in result) {
-  //     if (user["ip"] == ticket /*and not in firebase list*/) {
-  //       attendeeModel = AttendeeModel.fromJson(user);
-  //       return attendeeModel;
-  //     }
-  //   }
-  //   throw Exception();
-  // }
-
-  Future<AttendeeModel> getUser(String attendeeCode) async {
+  Future<AttendeeModel> getUser(context, String attendeeCode) async {
     late AttendeeModel attendeeModel;
     final dio = Dio();
     var result;
@@ -33,6 +21,7 @@ class AttendeeService {
         }).then((value) {
       result = value.data["data"];
     });
+    print(result);
     if (result == "False, Error Occured while return data") {
       throw Exception();
     } else {

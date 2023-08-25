@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ieee_ticket_scanner/core/bloc/scan_cubit/scan_cubit.dart';
+import 'package:ieee_ticket_scanner/core/bloc/scan_cubit/scan_state.dart';
 import 'package:ieee_ticket_scanner/features/model/attendee_model.dart';
-
+import '../../core/utils/app_colors.dart';
 
 class InfoScreen extends StatefulWidget {
-  const InfoScreen({super.key, required this.attendeeModel});
-  final AttendeeModel? attendeeModel;
+  const InfoScreen({super.key});
+
   @override
   State<InfoScreen> createState() => _InfoScreenState();
 }
@@ -12,29 +15,71 @@ class InfoScreen extends StatefulWidget {
 class _InfoScreenState extends State<InfoScreen> {
   @override
   Widget build(BuildContext context) {
-    final AttendeeModel attendee = widget.attendeeModel!;
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: Column(
-          children: [
-            Text("name : ${attendee.name}"),
-            Text("email : ${attendee.email}"),
-            Text("phone : ${attendee.phone}"),
-            Text("age : ${attendee.age}"),
-            Text("city : ${attendee.city}"),
-            Text("university : ${attendee.university}"),
-            Text("college : ${attendee.college}"),
-            Text("academic year : ${attendee.academicYear}"),
-          ],
-        ),
-      ),
-    );
+    return BlocBuilder<ScanCubit, ScanState>(builder: (context, state) {
+      if (state is LoadingState) {
+        print("loading");
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primary,
+              backgroundColor: AppColors.transparent,
+              strokeWidth: 1,
+            ),
+          ),
+        );
+      } else if (state is SuccessState) {
+        print("success");
+        final AttendeeModel attendee = BlocProvider.of<ScanCubit>(context).attendeeModel;
+        return Scaffold(
+          body: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Column(
+              children: [
+                Text("name : ${attendee.name}"),
+                Text("email : ${attendee.email}"),
+                Text("phone : ${attendee.phone}"),
+                Text("age : ${attendee.age}"),
+                Text("city : ${attendee.city}"),
+                Text("university : ${attendee.university}"),
+                Text("college : ${attendee.college}"),
+                Text("academic year : ${attendee.academicYear}"),
+              ],
+            ),
+          ),
+        );
+      } else if (state is FailedState) {
+        print("failed");
+        return Scaffold(
+          body: Center(
+            child: Text(
+              BlocProvider.of<ScanCubit>(context).error,
+              style: const TextStyle(
+                  color: AppColors.error,
+                  fontFamily: "Rubik",
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        );
+      } else {
+        print("initial");
+        return const Scaffold(
+          body: Center(
+            child: Text(
+              "Go Scan a ticket yasta",
+              style: TextStyle(
+                  color: AppColors.error,
+                  fontFamily: "Rubik",
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        );
+      }
+    });
   }
 }
-
-
 
 // Widget ticketCardText() {
 //   if (ticketId == '-1') {
