@@ -21,7 +21,6 @@ class AttendeeService {
         }).then((value) {
       result = value.data["data"];
     });
-    print(result);
     if (result == "False, Error Occured while return data") {
       throw Exception();
     } else {

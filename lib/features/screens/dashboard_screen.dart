@@ -50,17 +50,19 @@ class _DashboardState extends State<Dashboard> {
                           bottomRight: Radius.circular(35),
                         ))),
                 Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    width: 240,
-                    height: 150,
-                    decoration: const BoxDecoration(
-                        color: Color(0x07000000),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(35),
-                          topRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(35),
-                        ))),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  width: 240,
+                  height: 150,
+                  decoration: const BoxDecoration(
+                    color: Color(0x07000000),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(35),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(35),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -69,7 +71,12 @@ class _DashboardState extends State<Dashboard> {
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const HistoryScreen()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HistoryScreen(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary),

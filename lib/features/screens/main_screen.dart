@@ -2,7 +2,6 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
 import 'package:ieee_ticket_scanner/features/screens/dashboard_screen.dart';
-import 'package:ieee_ticket_scanner/features/screens/data_screen.dart';
 import 'package:ieee_ticket_scanner/features/screens/info_screen.dart';
 import 'package:ieee_ticket_scanner/features/screens/scanner_screen.dart';
 
@@ -25,12 +24,12 @@ class _MainScreenState extends State<MainScreen>
     tabController.addListener(_handleTabChange);
   }
 
-  @override
-  void dispose() {
-    tabController.removeListener(_handleTabChange);
-    tabController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   tabController.removeListener(_handleTabChange);
+  //   tabController.dispose();
+  //   super.dispose();
+  // }
 
   void _handleTabChange() {
     setState(() {});
