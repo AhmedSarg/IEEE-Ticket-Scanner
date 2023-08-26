@@ -70,8 +70,8 @@ class _DashboardState extends State<Dashboard> {
                           BlocProvider.of<AnalyticsCubit>(context).colleges;
                       Map<String, int> days =
                           BlocProvider.of<AnalyticsCubit>(context).days;
-
-                      s = sum(colleges);
+                      List<int> values = [days["day-1"]!, days["day-2"]!, days["day-3"]!, days["day-4"]!, days["day-5"]!];
+                      s = colleges.isEmpty ? 1 : sum(colleges);
                       if (state is SuccessAnalyticsState) {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -118,7 +118,7 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             Container(
                               margin: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
+                                  horizontal: 20, vertical: 10,),
                               width: double.infinity,
                               height: 220,
                               decoration: const BoxDecoration(
@@ -132,7 +132,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
-                                child: LineChart(mainData()),
+                                child: LineChart(mainData(values)),
                               ),
                             ),
                           ],
@@ -206,6 +206,9 @@ class _DashboardState extends State<Dashboard> {
   var oneIsTouched = false;
 
   List<PieChartSectionData> showingSections() {
+    if (colleges.isEmpty) {
+      colleges = {"No Data Yet" : 1};
+    }
     return List.generate(colleges.length, (index) {
       final isTouched = index == touchedIndex;
       if (isTouched) {
@@ -214,7 +217,6 @@ class _DashboardState extends State<Dashboard> {
       if (touchedIndex == -1) {
         oneIsTouched = false;
       }
-      // final fontSize = isTouched ? 16.0 : 16.0;
       const fontSize = 16.0;
       final radius = isTouched ? 120.0 : 100.0;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
@@ -304,7 +306,7 @@ class _DashboardState extends State<Dashboard> {
     AppColors.contentColorBlue,
   ];
 
-  LineChartData mainData() {
+  LineChartData mainData(List<int> values) {
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -359,14 +361,14 @@ class _DashboardState extends State<Dashboard> {
       maxY: 250,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 0),
-            FlSpot(1, 220),
-            FlSpot(2, 175),
-            FlSpot(3, 150),
-            FlSpot(4, 155),
-            FlSpot(5, 200),
-            FlSpot(6, 0),
+          spots: [
+            const FlSpot(0, 0),
+            FlSpot(1, values[0].toDouble()),
+            FlSpot(2, values[1].toDouble()),
+            FlSpot(3, values[2].toDouble()),
+            FlSpot(4, values[3].toDouble()),
+            FlSpot(5, values[4].toDouble()),
+            const FlSpot(6, 0),
           ],
           isCurved: true,
           gradient: LinearGradient(

@@ -18,10 +18,13 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
   void fetchData(List<QueryDocumentSnapshot<Object?>> docs) async {
     emit(LoadingAnalyticsState());
     late Map<String, double> thisColleges = {};
-    // colleges.clear();
-    days.forEach((key, value) {
-      days[key] = 0;
-    });
+    Map<String, int> thisDays = {
+      "day-1": 0,
+      "day-2": 0,
+      "day-3": 0,
+      "day-4": 0,
+      "day-5": 0,
+    };
     try {
       for (var doc in docs) {
         var day1 = await doc.get("day-1");
@@ -30,8 +33,8 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
         var day4 = await doc.get("day-4");
         var day5 = await doc.get("day-5");
         if (day1) {
-          days["day-1"] = days["day-1"]! + 1;
-          if (DateTime.now().day == 27) {
+          thisDays["day-1"] = thisDays["day-1"]! + 1;
+          if (DateTime.now().day == 3) {
             var college = await doc.get("college");
             if (thisColleges.containsKey(college)) {
               thisColleges[college] = thisColleges[college]! + 1;
@@ -41,51 +44,52 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
           }
         }
         if (day2) {
-          days["day-2"] = days["day-2"]! + 1;
+          thisDays["day-2"] = thisDays["day-2"]! + 1;
           if (DateTime.now().day == 4) {
             var college = await doc.get("college");
-            if (colleges.containsKey(college)) {
-              colleges[college] = colleges[college]! + 1;
+            if (thisColleges.containsKey(college)) {
+              thisColleges[college] = thisColleges[college]! + 1;
             } else {
-              colleges[college] = 1;
+              thisColleges[college] = 1;
             }
           }
         }
         if (day3) {
-          days["day-3"] = days["day-3"]! + 1;
+          thisDays["day-3"] = thisDays["day-3"]! + 1;
           if (DateTime.now().day == 5) {
             var college = await doc.get("college");
-            if (colleges.containsKey(college)) {
-              colleges[college] = colleges[college]! + 1;
+            if (thisColleges.containsKey(college)) {
+              thisColleges[college] = thisColleges[college]! + 1;
             } else {
-              colleges[college] = 1;
+              thisColleges[college] = 1;
             }
           }
         }
         if (day4) {
-          days["day-4"] = days["day-4"]! + 1;
+          thisDays["day-4"] = thisDays["day-4"]! + 1;
           if (DateTime.now().day == 6) {
             var college = await doc.get("college");
-            if (colleges.containsKey(college)) {
-              colleges[college] = colleges[college]! + 1;
+            if (thisColleges.containsKey(college)) {
+              thisColleges[college] = thisColleges[college]! + 1;
             } else {
-              colleges[college] = 1;
+              thisColleges[college] = 1;
             }
           }
         }
         if (day5) {
-          days["day-5"] = days["day-5"]! + 1;
+          thisDays["day-5"] = thisDays["day-5"]! + 1;
           if (DateTime.now().day == 7) {
             var college = await doc.get("college");
-            if (colleges.containsKey(college)) {
-              colleges[college] = colleges[college]! + 1;
+            if (thisColleges.containsKey(college)) {
+              thisColleges[college] = thisColleges[college]! + 1;
             } else {
-              colleges[college] = 1;
+              thisColleges[college] = 1;
             }
           }
         }
       }
       colleges = thisColleges;
+      days = thisDays;
       emit(SuccessAnalyticsState());
     }
     catch (e) {
