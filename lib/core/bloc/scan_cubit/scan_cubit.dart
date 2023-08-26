@@ -14,16 +14,17 @@ class ScanCubit extends Cubit<ScanState> {
 
   void addUser(AttendeeModel attendeeModel) {
     CollectionReference users =
-        FirebaseFirestore.instance.collection('ScannedAttendees');
+    FirebaseFirestore.instance.collection('ScannedAttendees');
     users
         .add(
-          {
-            "id": attendeeModel.id,
-            "name": attendeeModel.name,
-            "university": attendeeModel.university,
-            "college": attendeeModel.college
-          },
-        )
+      {
+        "id": attendeeModel.id,
+        "attendeeCode": attendeeModel.attendeeCode,
+        "name": attendeeModel.name,
+        "university": attendeeModel.university,
+        "college": attendeeModel.college
+      },
+    )
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
   }

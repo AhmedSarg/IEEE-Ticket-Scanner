@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
-
+import 'package:ieee_ticket_scanner/features/screens/info_screen_2.dart';
+import '../../core/bloc/details_cubit/details_cubit.dart';
 import '../../core/bloc/scan_cubit/scan_cubit.dart';
 
 class HistoryScreen extends StatelessWidget {
@@ -12,7 +13,7 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("details builded");
+    print("details built");
     double _w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -67,15 +68,25 @@ class HistoryScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(bottom: 10),
                                 child: Text(
                                   attendee.get("name"),
-                                  style: const TextStyle(fontFamily: "Rubik", fontSize: 18),
+                                  style: const TextStyle(
+                                      fontFamily: "Rubik", fontSize: 18),
                                 ),
                               ),
                               subtitle: Text(
                                 attendee.get("college") +
                                     " " +
                                     attendee.get("university"),
-                                style: const TextStyle(fontFamily: "Rubik", fontSize: 14),
+                                style: const TextStyle(
+                                    fontFamily: "Rubik", fontSize: 14),
                               ),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: ((context) =>
+                                        InfoScreen2(attendeeCode: attendee.get("attendeeCode"),)),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
