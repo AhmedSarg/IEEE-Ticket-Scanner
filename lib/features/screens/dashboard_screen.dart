@@ -38,7 +38,6 @@ double sum(Map<String, double> map) {
   return s;
 }
 
-
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
@@ -51,31 +50,37 @@ class _DashboardState extends State<Dashboard> {
   var i = 0;
   late double s;
   late Map<String, double> colleges;
+
   @override
   Widget build(BuildContext context) {
-    s = sum(colleges);
     return Scaffold(
-      body: Column(
-        children: [
-          StreamBuilder(
-            stream: BlocProvider.of<AnalyticsCubit>(context).getUsers(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return BlocBuilder(
-                  builder: (context, state) {
-                    BlocProvider.of<AnalyticsCubit>(context).fetchData(snapshot.data!.docs);
-                    colleges = BlocProvider.of<AnalyticsCubit>(context).colleges;
-                    if (state is SuccessAnalyticsState) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 40),
-                        height: 200,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            StreamBuilder(
+                stream: BlocProvider.of<AnalyticsCubit>(context).getUsers(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return BlocBuilder<AnalyticsCubit, AnalyticsState>(
+                        builder: (context, state) {
+                      BlocProvider.of<AnalyticsCubit>(context)
+                          .fetchData(snapshot.data!.docs);
+                      colleges =
+                          BlocProvider.of<AnalyticsCubit>(context).colleges;
+                      Map<String, int> days =
+                          BlocProvider.of<AnalyticsCubit>(context).days;
+
+                      s = sum(colleges);
+                      if (state is SuccessAnalyticsState) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 20),
-                              width: 240,
-                              height: 150,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              width: double.infinity,
+                              height: 250,
                               decoration: const BoxDecoration(
                                   color: AppColors.nearlyWhite,
                                   borderRadius: BorderRadius.only(
@@ -87,17 +92,20 @@ class _DashboardState extends State<Dashboard> {
                               child: PieChart(
                                 PieChartData(
                                     pieTouchData: PieTouchData(
-                                      touchCallback:
-                                          (FlTouchEvent event, pieTouchResponse) {
+                                      touchCallback: (FlTouchEvent event,
+                                          pieTouchResponse) {
                                         setState(() {
-                                          if (!event.isInterestedForInteractions ||
+                                          if (!event
+                                                  .isInterestedForInteractions ||
                                               pieTouchResponse == null ||
-                                              pieTouchResponse.touchedSection == null) {
+                                              pieTouchResponse.touchedSection ==
+                                                  null) {
                                             touchedIndex = -1;
                                             return;
                                           }
                                           touchedIndex = pieTouchResponse
-                                              .touchedSection!.touchedSectionIndex;
+                                              .touchedSection!
+                                              .touchedSectionIndex;
                                         });
                                       },
                                     ),
@@ -109,23 +117,12 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 20),
-                                width: 240,
-                                height: 150,
-                                decoration: const BoxDecoration(
-                                    color: Color(0x07000000),
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(35),
-                                      topRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(35),
-                                    ))),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 20),
-                              width: 240,
-                              height: 150,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              width: double.infinity,
+                              height: 220,
                               decoration: const BoxDecoration(
-                                color: Color(0x07000000),
+                                color: AppColors.primary,
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(35),
                                   topRight: Radius.circular(10),
@@ -133,63 +130,75 @@ class _DashboardState extends State<Dashboard> {
                                   bottomRight: Radius.circular(35),
                                 ),
                               ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: LineChart(mainData()),
+                              ),
                             ),
                           ],
-                        ),
-                      );
-                    }
-                    else if (state is FailedAnalyticsState) {
-                      return const Center(child: Text("Connection Error"),);
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primary,
-                          backgroundColor: AppColors.transparent,
-                          strokeWidth: 1,
-                        ),
-                      );
-                    }
+                        );
+                      } else if (state is FailedAnalyticsState) {
+                        return const SizedBox(
+                          width: double.infinity,
+                          height: 540,
+                          child: Center(
+                            child: Text("Connection Error"),
+                          ),
+                        );
+                      } else {
+                        return const SizedBox(
+                          width: double.infinity,
+                          height: 540,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primary,
+                              backgroundColor: AppColors.transparent,
+                              strokeWidth: 1,
+                            ),
+                          ),
+                        );
+                      }
+                    });
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                      child: Text("Connection Error"),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                        backgroundColor: AppColors.transparent,
+                        strokeWidth: 1,
+                      ),
+                    );
                   }
-                );
-              }
-              else if (snapshot.hasError) {
-                return const Center(child: Text("Connection Error"),);
-              }
-              else {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primary,
-                    backgroundColor: AppColors.transparent,
-                    strokeWidth: 1,
+                }),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HistoryScreen(),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    "Show All Attendees",
+                    style: TextStyle(fontFamily: 'Rubik', fontSize: 16),
                   ),
-                );
-              }
-            }
-          ),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HistoryScreen(),
-                  ),
-                );
-              },
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  "Show All Attendees",
-                  style: TextStyle(fontFamily: 'Rubik', fontSize: 16),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -205,8 +214,9 @@ class _DashboardState extends State<Dashboard> {
       if (touchedIndex == -1) {
         oneIsTouched = false;
       }
-      final fontSize = isTouched ? 12.0 : 16.0;
-      final radius = isTouched ? 100.0 : 80.0;
+      // final fontSize = isTouched ? 16.0 : 16.0;
+      const fontSize = 16.0;
+      final radius = isTouched ? 120.0 : 100.0;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
       return PieChartSectionData(
         color: pieChartColors[index],
@@ -216,7 +226,7 @@ class _DashboardState extends State<Dashboard> {
             : "${(colleges[colleges.keys.elementAt(index)]! / s * 100).round()}%",
         showTitle: (oneIsTouched && !isTouched) ? false : true,
         radius: radius,
-        titleStyle: TextStyle(
+        titleStyle: const TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.bold,
           color: AppColors.white,
@@ -224,5 +234,159 @@ class _DashboardState extends State<Dashboard> {
         ),
       );
     });
+  }
+
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+        fontWeight: FontWeight.normal, fontSize: 13, color: AppColors.white);
+    Widget text;
+    switch (value.toInt()) {
+      case 1:
+        text = const Text('DAY-1', style: style);
+        break;
+      case 2:
+        text = const Text('DAY-2', style: style);
+        break;
+      case 3:
+        text = const Text('DAY-3', style: style);
+        break;
+      case 4:
+        text = const Text('DAY-4', style: style);
+        break;
+      case 5:
+        text = const Text('DAY-5', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: text,
+    );
+  }
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.normal,
+      fontSize: 15,
+      color: AppColors.white,
+    );
+    String text;
+    switch (value.toInt()) {
+      case 0:
+        text = '0';
+        break;
+      case 50:
+        text = '50';
+        break;
+      case 100:
+        text = '100';
+        break;
+      case 150:
+        text = '150';
+        break;
+      case 200:
+        text = '200';
+        break;
+      case 250:
+        text = '';
+        break;
+      default:
+        return Container();
+    }
+
+    return Text(text, style: style, textAlign: TextAlign.left);
+  }
+
+  List<Color> gradientColors = [
+    AppColors.white,
+    AppColors.contentColorBlue,
+  ];
+
+  LineChartData mainData() {
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: true,
+        horizontalInterval: 1,
+        verticalInterval: 1,
+        getDrawingHorizontalLine: (value) {
+          return FlLine(
+            color: AppColors.mainGridLineColor,
+            strokeWidth: 1,
+          );
+        },
+        getDrawingVerticalLine: (value) {
+          return FlLine(
+            color: AppColors.mainGridLineColor,
+            strokeWidth: 1,
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            interval: 1,
+            getTitlesWidget: bottomTitleWidgets,
+          ),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 1,
+            getTitlesWidget: leftTitleWidgets,
+            reservedSize: 42,
+          ),
+        ),
+      ),
+      borderData: FlBorderData(
+        show: true,
+        border: Border.all(color: const Color(0xff37434d)),
+      ),
+      minX: 0,
+      maxX: 6,
+      minY: 0,
+      maxY: 250,
+      lineBarsData: [
+        LineChartBarData(
+          spots: const [
+            FlSpot(0, 0),
+            FlSpot(1, 220),
+            FlSpot(2, 175),
+            FlSpot(3, 150),
+            FlSpot(4, 155),
+            FlSpot(5, 200),
+            FlSpot(6, 0),
+          ],
+          isCurved: true,
+          gradient: LinearGradient(
+            colors: gradientColors,
+          ),
+          barWidth: 5,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
