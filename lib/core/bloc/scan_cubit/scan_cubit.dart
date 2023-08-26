@@ -9,6 +9,7 @@ class ScanCubit extends Cubit<ScanState> {
   AttendeeService attendeeService = AttendeeService();
   late AttendeeModel attendeeModel;
   late bool signed;
+  late bool sent;
   int index = 1;
   String error = "";
 
@@ -22,7 +23,12 @@ class ScanCubit extends Cubit<ScanState> {
         "attendeeCode": attendeeModel.attendeeCode,
         "name": attendeeModel.name,
         "university": attendeeModel.university,
-        "college": attendeeModel.college
+        "college": attendeeModel.college,
+        "day-1" : DateTime.now().day >= 3,
+        "day-2" : DateTime.now().day >= 4 ,
+        "day-3" : DateTime.now().day >= 5,
+        "day-4" : DateTime.now().day >= 6,
+        "day-5" : DateTime.now().day >= 7,
       },
     )
         .then((value) => print("User Added"))
@@ -41,9 +47,19 @@ class ScanCubit extends Cubit<ScanState> {
       attendeeModel = await attendeeService.getUser(context, attendeeCode);
       signed = await attendeeService.signUserToday(attendeeModel.id.toString());
       if (signed) {
-        addUser(attendeeModel);
-        emit(SuccessState());
+        print("in signed");
+        sent = await attendeeService.signUserDay(attendeeModel.id.toString());
+        if (sent) {
+          print("in sent");
+          addUser(attendeeModel);
+          emit(SuccessState());
+        }
+        else {
+          print("in else sent");
+          error = "couldn't connect to internet";
+        }
       } else {
+        print("in else signed");
         error = "ticket has been used today";
         emit(FailedState());
       }

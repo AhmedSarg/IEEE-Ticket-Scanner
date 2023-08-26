@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
 import 'package:ieee_ticket_scanner/features/screens/info_screen_2.dart';
-import '../../core/bloc/details_cubit/details_cubit.dart';
 import '../../core/bloc/scan_cubit/scan_cubit.dart';
 
 class HistoryScreen extends StatelessWidget {
@@ -48,7 +47,6 @@ class HistoryScreen extends StatelessWidget {
                           flipAxis: FlipAxis.y,
                           child: Container(
                             margin: EdgeInsets.only(bottom: _w / 20),
-                            // height: _w / 4,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: const BorderRadius.all(

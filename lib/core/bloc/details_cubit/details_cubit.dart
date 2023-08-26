@@ -11,7 +11,6 @@ class DetailsCubit extends Cubit<DetailsState> {
 
 
   void getUser(context, String attendeeCode) async {
-    print("in get user");
     emit(LoadingDetailsState());
     try {
       attendeeModel = await attendeeService.getUser(context, attendeeCode);

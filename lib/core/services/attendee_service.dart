@@ -1,9 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ieee_ticket_scanner/features/model/attendee_model.dart';
-
-import '../bloc/scan_cubit/scan_cubit.dart';
-import '../database/api/dio_consumer.dart';
 
 class AttendeeService {
   String baseUrl = "https://dummyjson.com/users";
@@ -43,11 +39,36 @@ class AttendeeService {
     });
     if (result == 400) {
       return false;
-    } else if (result == 201){
+    } else if (result == 201) {
       return true;
-    }
-    else {
+    } else {
       throw Exception();
+    }
+  }
+
+  Future<bool> signUserDay(String attendeeId) async {
+    final dio = Dio();
+    var result;
+    var today = "${DateTime.now().year}/${DateTime.now().month.toString().length == 1
+            ? "0${DateTime.now().month}"
+            : DateTime.now().month.toString()}/${DateTime.now().day.toString().length == 1
+            ? "0${DateTime.now().day}"
+            : DateTime.now().day.toString()}";
+    await dio.post(
+        "https://ieee-bub.org/API/API/v1/event_attendee/flutter-2023/attendee_attend_days",
+        data: {
+          "data": {
+            "attendee_id": attendeeId,
+            "day" : today,
+          }
+        }).then((value) {
+      result = value.data["data"];
+    });
+    print(result);
+    if (result == "False, Error Occured while return data") {
+      return false;
+    } else {
+      return true;
     }
   }
 }
