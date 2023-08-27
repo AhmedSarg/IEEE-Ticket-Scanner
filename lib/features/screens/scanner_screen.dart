@@ -12,8 +12,8 @@ import '../../core/services/attendee_service.dart';
 class Scanner extends StatelessWidget {
   Scanner({super.key});
 
-  AttendeeService attendeeService = AttendeeService();
-  late AttendeeModel scannedAttendee;
+  final AttendeeService attendeeService = AttendeeService();
+  late final AttendeeModel scannedAttendee;
 
   Future scanBarcode(context) async {
     String barcodeScanResult = "";

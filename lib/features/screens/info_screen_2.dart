@@ -1,11 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ieee_ticket_scanner/core/bloc/scan_cubit/scan_cubit.dart';
-import 'package:ieee_ticket_scanner/core/bloc/scan_cubit/scan_state.dart';
 import 'package:ieee_ticket_scanner/features/model/attendee_model.dart';
-import 'package:im_stepper/stepper.dart';
 import '../../core/bloc/details_cubit/details_cubit.dart';
 import '../../core/bloc/details_cubit/details_state.dart';
 import '../../core/utils/app_colors.dart';

@@ -13,7 +13,7 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("details built");
-    double _w = MediaQuery.of(context).size.width;
+    double w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Attendees Details"),
@@ -27,7 +27,7 @@ class HistoryScreen extends StatelessWidget {
               var attendees = snapshot.data!.docs;
               return AnimationLimiter(
                 child: ListView.builder(
-                  padding: EdgeInsets.all(_w / 30),
+                  padding: EdgeInsets.all(w / 30),
                   physics: const BouncingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics()),
                   itemCount: attendees.length,
@@ -46,7 +46,7 @@ class HistoryScreen extends StatelessWidget {
                           curve: Curves.fastLinearToSlowEaseIn,
                           flipAxis: FlipAxis.y,
                           child: Container(
-                            margin: EdgeInsets.only(bottom: _w / 20),
+                            margin: EdgeInsets.only(bottom: w / 20),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: const BorderRadius.all(

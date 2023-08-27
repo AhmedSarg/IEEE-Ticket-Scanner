@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ieee_ticket_scanner/core/bloc/analytics_cubit/analytics_cubit.dart';
 import 'package:ieee_ticket_scanner/core/bloc/analytics_cubit/analytics_state.dart';
-import 'dart:math' as math;
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
 import 'package:ieee_ticket_scanner/features/screens/history_screen.dart';
 

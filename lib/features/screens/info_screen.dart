@@ -4,6 +4,7 @@ import 'package:ieee_ticket_scanner/core/bloc/scan_cubit/scan_cubit.dart';
 import 'package:ieee_ticket_scanner/core/bloc/scan_cubit/scan_state.dart';
 import 'package:ieee_ticket_scanner/features/model/attendee_model.dart';
 import '../../core/utils/app_colors.dart';
+import 'info_screen_2.dart';
 
 class InfoScreen extends StatefulWidget {
   const InfoScreen({super.key});
@@ -31,22 +32,57 @@ class _InfoScreenState extends State<InfoScreen> {
         print("success");
         final AttendeeModel attendee = BlocProvider.of<ScanCubit>(context).attendeeModel;
         return Scaffold(
-          body: SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: Column(
-              children: [
-                Text("name : ${attendee.name}"),
-                Text("email : ${attendee.email}"),
-                Text("phone : ${attendee.phone}"),
-                Text("age : ${attendee.age}"),
-                Text("city : ${attendee.city}"),
-                Text("university : ${attendee.university}"),
-                Text("college : ${attendee.college}"),
-                Text("academic year : ${attendee.academicYear}"),
-              ],
+          body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            color: AppColors.darkGrey,
+            image: DecorationImage(
+                image: AssetImage("assets/images/bg.jpg"), fit: BoxFit.cover),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Center(
+                          child: Text(
+                            attendee.name,
+                            style: const TextStyle(
+                                fontFamily: "Badaboom",
+                                fontWeight: FontWeight.bold,
+                                fontSize: 60,
+                                color: AppColors.white,
+                                shadows: [
+                                  Shadow(
+                                      offset: Offset(-3.0, 0.0),
+                                      blurRadius: 0.0,
+                                      color: AppColors.red),
+                                ]),
+                          ),
+                        ),
+                      ),
+                      detailCard("email", attendee.email),
+                      detailCard("phone", attendee.phone),
+                      detailCard("age", attendee.age),
+                      detailCard("city", attendee.city),
+                      detailCard("university", attendee.university),
+                      detailCard("college", attendee.college),
+                      detailCard("academic year", attendee.academicYear),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
+        ),
         );
       } else if (state is FailedState) {
         print("failed");
@@ -81,74 +117,4 @@ class _InfoScreenState extends State<InfoScreen> {
   }
 }
 
-// Widget ticketCardText() {
-//   if (ticketId == '-1') {
-//     return const Text("Attendee Not Found",
-//         style: TextStyle(
-//             color: AppColors.white, fontSize: 24, fontFamily: "Rubik"));
-//   } else if (ticketId == '') {
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: const [
-//         Padding(
-//           padding: EdgeInsets.all(15.0),
-//           child: Text("Waiting...",
-//               style: TextStyle(
-//                   color: AppColors.white, fontSize: 24, fontFamily: "Rubik")),
-//         ),
-//         Padding(
-//           padding: EdgeInsets.all(15.0),
-//           child: CircularProgressIndicator(
-//             color: AppColors.white,
-//           ),
-//         )
-//       ],
-//     );
-//   } else if (ticketId == "nodata") {
-//     return const Center(
-//         child: Text("Begin scanning to show data",
-//             style: TextStyle(
-//                 color: AppColors.white, fontSize: 24, fontFamily: "Rubik")));
-//   } else {
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.all(12.0),
-//           child: Text(
-//             "Name : ${scannedAttendee.name}",
-//             style: const TextStyle(
-//                 color: AppColors.white, fontSize: 16, fontFamily: "Rubik"),
-//           ),
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.all(12.0),
-//           child: Text(
-//             "University : ${scannedAttendee.college}",
-//             style: const TextStyle(
-//                 color: AppColors.white, fontSize: 16, fontFamily: "Rubik"),
-//           ),
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.all(12.0),
-//           child: Text(
-//             "Ticket ID : ${scannedAttendee.ticketId}",
-//             style: const TextStyle(
-//                 color: AppColors.white, fontSize: 16, fontFamily: "Rubik"),
-//           ),
-//         ),
-//         const Center(
-//           child: Padding(
-//             padding: EdgeInsets.all(12.0),
-//             child: Text(
-//               "Attendee Exists",
-//               style: TextStyle(
-//                   color: AppColors.white, fontSize: 24, fontFamily: "Rubik"),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
+
