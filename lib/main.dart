@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: MainScreen(),
-        // home: LoadingScreen(),
+        // home: MainScreen(),
+        home: LoadingScreen(),
       ),
     );
   }
