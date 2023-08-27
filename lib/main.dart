@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ieee_ticket_scanner/core/bloc/analytics_cubit/analytics_cubit.dart';
 import 'package:ieee_ticket_scanner/core/bloc/details_cubit/details_cubit.dart';
 import 'package:ieee_ticket_scanner/core/bloc/scan_cubit/scan_cubit.dart';
+import 'package:ieee_ticket_scanner/core/routes/routes.dart';
+import 'package:ieee_ticket_scanner/features/screens/history_screen.dart';
 import 'package:ieee_ticket_scanner/features/screens/main_screen.dart';
 import 'features/screens/loading_screen.dart';
 import 'firebase_options.dart';
@@ -29,8 +31,8 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        // home: MainScreen(),
-        home: LoadingScreen(),
+        home: MainScreen(),
+        // home: LoadingScreen(),
       ),
     );
   }

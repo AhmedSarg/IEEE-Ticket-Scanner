@@ -11,6 +11,7 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
     "day-3": 0,
     "day-4": 0,
     "day-5": 0,
+    "day-26": 0,
   };
 
   Map<String, double> colleges = {};
@@ -18,81 +19,58 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
   void fetchData(List<QueryDocumentSnapshot<Object?>> docs) async {
     emit(LoadingAnalyticsState());
     late Map<String, double> thisColleges = {};
+
     Map<String, int> thisDays = {
       "day-1": 0,
       "day-2": 0,
       "day-3": 0,
       "day-4": 0,
       "day-5": 0,
+      "day-26": 0,
     };
+
+    getDay(1).listen((collection) {
+      thisDays["day-1"] = collection.size;
+      days["day-1"] = thisDays["day-1"]!.round();
+    });
+    getDay(2).listen((collection) {
+      thisDays["day-2"] = collection.size;
+      days["day-2"] = thisDays["day-2"]!;
+    });
+    getDay(3).listen((collection) {
+      thisDays["day-3"] = collection.size;
+      days["day-3"] = thisDays["day-3"]!;
+    });
+    getDay(4).listen((collection) {
+      thisDays["day-4"] = collection.size;
+      days["day-4"] = thisDays["day-4"]!;
+    });
+    getDay(5).listen((collection) {
+      thisDays["day-5"] = collection.size;
+      days["day-5"] = thisDays["day-5"]!;
+    });
+    getDay(27).listen((collection) {
+      thisDays["day-25"] = collection.size;
+      days["day-26"] = thisDays["day-26"]!.round();
+    });
+
     try {
-      for (var doc in docs) {
-        var day1 = await doc.get("day-1");
-        var day2 = await doc.get("day-2");
-        var day3 = await doc.get("day-3");
-        var day4 = await doc.get("day-4");
-        var day5 = await doc.get("day-5");
-        if (day1) {
-          thisDays["day-1"] = thisDays["day-1"]! + 1;
-          if (DateTime.now().day == 3) {
-            var college = await doc.get("college");
-            if (thisColleges.containsKey(college)) {
-              thisColleges[college] = thisColleges[college]! + 1;
-            } else {
-              thisColleges[college] = 1;
-            }
+      var today = DateTime.now().day;
+      getDay(today - 2).listen((collection) {
+        collection.docs.forEach((doc) {
+          var college = doc.get("college");
+          if (thisColleges.containsKey(college)) {
+            thisColleges[college] = thisColleges[college]! + 1;
+          } else {
+            thisColleges[college] = 1;
           }
-        }
-        if (day2) {
-          thisDays["day-2"] = thisDays["day-2"]! + 1;
-          if (DateTime.now().day == 4) {
-            var college = await doc.get("college");
-            if (thisColleges.containsKey(college)) {
-              thisColleges[college] = thisColleges[college]! + 1;
-            } else {
-              thisColleges[college] = 1;
-            }
-          }
-        }
-        if (day3) {
-          thisDays["day-3"] = thisDays["day-3"]! + 1;
-          if (DateTime.now().day == 5) {
-            var college = await doc.get("college");
-            if (thisColleges.containsKey(college)) {
-              thisColleges[college] = thisColleges[college]! + 1;
-            } else {
-              thisColleges[college] = 1;
-            }
-          }
-        }
-        if (day4) {
-          thisDays["day-4"] = thisDays["day-4"]! + 1;
-          if (DateTime.now().day == 6) {
-            var college = await doc.get("college");
-            if (thisColleges.containsKey(college)) {
-              thisColleges[college] = thisColleges[college]! + 1;
-            } else {
-              thisColleges[college] = 1;
-            }
-          }
-        }
-        if (day5) {
-          thisDays["day-5"] = thisDays["day-5"]! + 1;
-          if (DateTime.now().day == 7) {
-            var college = await doc.get("college");
-            if (thisColleges.containsKey(college)) {
-              thisColleges[college] = thisColleges[college]! + 1;
-            } else {
-              thisColleges[college] = 1;
-            }
-          }
-        }
-      }
-      colleges = thisColleges;
-      days = thisDays;
+        });
+        colleges = thisColleges;
+        emit(SuccessAnalyticsState());
+      });
+      print(colleges);
       emit(SuccessAnalyticsState());
-    }
-    catch (e) {
+    } catch (e) {
       emit(FailedAnalyticsState());
     }
   }
@@ -100,6 +78,12 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
   Stream<QuerySnapshot> getUsers() {
     return FirebaseFirestore.instance
         .collection('ScannedAttendees')
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getDay(int dayNumber) {
+    return FirebaseFirestore.instance
+        .collection('Day${dayNumber.toString()}')
         .snapshots();
   }
 }

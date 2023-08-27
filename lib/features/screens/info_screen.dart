@@ -16,6 +16,8 @@ class InfoScreen extends StatefulWidget {
 class _InfoScreenState extends State<InfoScreen> {
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return BlocBuilder<ScanCubit, ScanState>(builder: (context, state) {
       if (state is LoadingState) {
         print("loading");
@@ -30,59 +32,83 @@ class _InfoScreenState extends State<InfoScreen> {
         );
       } else if (state is SuccessState) {
         print("success");
-        final AttendeeModel attendee = BlocProvider.of<ScanCubit>(context).attendeeModel;
+        final AttendeeModel attendee =
+            BlocProvider.of<ScanCubit>(context).attendeeModel;
+        var names = attendee.name.split(" ");
+        var name = "${names[0]} ${names[names.length - 1]}";
         return Scaffold(
           body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            color: AppColors.darkGrey,
-            image: DecorationImage(
-                image: AssetImage("assets/images/bg.jpg"), fit: BoxFit.cover),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              color: AppColors.darkGrey,
+              image: DecorationImage(
+                  image: AssetImage("assets/images/bg.jpg"), fit: BoxFit.fill),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Center(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Center(
+                      child: RotationTransition(
+                        turns: const AlwaysStoppedAnimation(-8 / 360),
+                        child: Container(
+                          padding: const EdgeInsets.only(top: 5),
+                          // color: AppColors.darkPrimary,
+                          height: 60,
+                          width: w,
                           child: Text(
-                            attendee.name,
+                            name,
                             style: const TextStyle(
                                 fontFamily: "Badaboom",
                                 fontWeight: FontWeight.bold,
-                                fontSize: 60,
+                                fontSize: 50,
                                 color: AppColors.white,
+                                letterSpacing: 5,
                                 shadows: [
+                                  Shadow(
+                                      offset: Offset(-6.0, 0.0),
+                                      blurRadius: 0.0,
+                                      color: AppColors.black),
                                   Shadow(
                                       offset: Offset(-3.0, 0.0),
                                       blurRadius: 0.0,
                                       color: AppColors.red),
                                 ]),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                      detailCard("email", attendee.email),
-                      detailCard("phone", attendee.phone),
-                      detailCard("age", attendee.age),
-                      detailCard("city", attendee.city),
-                      detailCard("university", attendee.university),
-                      detailCard("college", attendee.college),
-                      detailCard("academic year", attendee.academicYear),
-                    ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: h * 0.1,
+                  ),
+                  SizedBox(
+                    height: h * 0.4,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          detailCard("full name", attendee.name),
+                          detailCard("email", attendee.email),
+                          detailCard("phone", attendee.phone),
+                          detailCard("age", attendee.age),
+                          detailCard("city", attendee.city),
+                          detailCard("university", attendee.university),
+                          detailCard("college", attendee.college),
+                          detailCard("academic year", attendee.academicYear),
+                        ],
+                      ),
+                    ),
                   )
                 ],
               ),
             ),
           ),
-        ),
         );
       } else if (state is FailedState) {
         print("failed");
@@ -116,5 +142,3 @@ class _InfoScreenState extends State<InfoScreen> {
     });
   }
 }
-
-

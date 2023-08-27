@@ -1,10 +1,14 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ieee_ticket_scanner/core/bloc/analytics_cubit/analytics_cubit.dart';
 import 'package:ieee_ticket_scanner/core/bloc/analytics_cubit/analytics_state.dart';
+import 'package:ieee_ticket_scanner/core/routes/routes.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
 import 'package:ieee_ticket_scanner/features/screens/history_screen.dart';
+import 'package:ieee_ticket_scanner/features/screens/main_screen.dart';
+import 'package:supercharged/supercharged.dart';
 
 const List<MaterialColor> pieChartColors = <MaterialColor>[
   Colors.indigo,
@@ -67,7 +71,13 @@ class _DashboardState extends State<Dashboard> {
                           BlocProvider.of<AnalyticsCubit>(context).colleges;
                       Map<String, int> days =
                           BlocProvider.of<AnalyticsCubit>(context).days;
-                      List<int> values = [days["day-1"]!, days["day-2"]!, days["day-3"]!, days["day-4"]!, days["day-5"]!];
+                      List<int> values = [
+                        days["day-1"]!,
+                        days["day-2"]!,
+                        days["day-3"]!,
+                        days["day-4"]!,
+                        days["day-5"]!
+                      ];
                       s = colleges.isEmpty ? 1 : sum(colleges);
                       if (state is SuccessAnalyticsState) {
                         return Column(
@@ -115,7 +125,9 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             Container(
                               margin: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10,),
+                                horizontal: 20,
+                                vertical: 10,
+                              ),
                               width: double.infinity,
                               height: 220,
                               decoration: const BoxDecoration(
@@ -174,13 +186,8 @@ class _DashboardState extends State<Dashboard> {
               width: double.infinity,
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HistoryScreen(),
-                    ),
-                  );
+                onPressed: () async {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HistoryScreen()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
@@ -204,7 +211,7 @@ class _DashboardState extends State<Dashboard> {
 
   List<PieChartSectionData> showingSections() {
     if (colleges.isEmpty) {
-      colleges = {"No Data Yet" : 1};
+      colleges = {"No Data Yet": 1};
     }
     return List.generate(colleges.length, (index) {
       final isTouched = index == touchedIndex;
@@ -303,8 +310,33 @@ class _DashboardState extends State<Dashboard> {
     AppColors.contentColorBlue,
   ];
 
+  List<LineTooltipItem> getNumbers(List<LineBarSpot> values) {
+    List<LineTooltipItem> ret = [];
+    values.forEach((element) {
+      ret.add(
+        LineTooltipItem(
+          element.y.ceil().toString(),
+          const TextStyle(
+            fontFamily: "Rubik",
+            color: AppColors.white,
+            fontSize: 14,
+          ),
+        ),
+      );
+    });
+    return ret;
+  }
+
   LineChartData mainData(List<int> values) {
+    print(values);
     return LineChartData(
+      lineTouchData: LineTouchData(
+          enabled: true,
+          touchTooltipData: LineTouchTooltipData(
+            tooltipBgColor: AppColors.darkPrimary,
+            tooltipRoundedRadius: 50,
+            getTooltipItems: getNumbers,
+          )),
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
@@ -349,8 +381,8 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
+        show: false,
+        border: Border.all(color: AppColors.white, width: 1),
       ),
       minX: 0,
       maxX: 6,
@@ -371,7 +403,7 @@ class _DashboardState extends State<Dashboard> {
           gradient: LinearGradient(
             colors: gradientColors,
           ),
-          barWidth: 5,
+          barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
             show: false,

@@ -14,30 +14,42 @@ class ScanCubit extends Cubit<ScanState> {
   String error = "";
 
   void addUser(AttendeeModel attendeeModel) {
-    CollectionReference users =
-    FirebaseFirestore.instance.collection('ScannedAttendees');
-    users
+    FirebaseFirestore.instance
+        .collection('ScannedAttendees')
         .add(
-      {
-        "id": attendeeModel.id,
-        "attendeeCode": attendeeModel.attendeeCode,
-        "name": attendeeModel.name,
-        "university": attendeeModel.university,
-        "college": attendeeModel.college,
-        "day-1" : DateTime.now().day >= 3,
-        "day-2" : DateTime.now().day >= 4 ,
-        "day-3" : DateTime.now().day >= 5,
-        "day-4" : DateTime.now().day >= 6,
-        "day-5" : DateTime.now().day >= 7,
-      },
-    )
+          {
+            "id": attendeeModel.id,
+            "attendeeCode": attendeeModel.attendeeCode,
+            "name": attendeeModel.name,
+            "university": attendeeModel.university,
+            "college": attendeeModel.college,
+          },
+        )
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
+
+    var today = DateTime.now().day;
+    if (today >= 3 && today <= 7 || today == 28) {
+      FirebaseFirestore.instance
+          .collection('Day${today - 2}')
+          .add(
+            {
+              "id": attendeeModel.id,
+              "attendeeCode": attendeeModel.attendeeCode,
+              "name": attendeeModel.name,
+              "university": attendeeModel.university,
+              "college": attendeeModel.college,
+            },
+          )
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
   }
 
   Stream<QuerySnapshot> getUsers() {
+    var today = DateTime.now().day;
     return FirebaseFirestore.instance
-        .collection('ScannedAttendees')
+        .collection('Day${today - 2}')
         .snapshots();
   }
 
@@ -53,10 +65,10 @@ class ScanCubit extends Cubit<ScanState> {
           print("in sent");
           addUser(attendeeModel);
           emit(SuccessState());
-        }
-        else {
+        } else {
           print("in else sent");
           error = "couldn't connect to internet";
+          emit(FailedState());
         }
       } else {
         print("in else signed");

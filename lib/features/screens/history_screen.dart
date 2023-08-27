@@ -12,7 +12,6 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("details built");
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
