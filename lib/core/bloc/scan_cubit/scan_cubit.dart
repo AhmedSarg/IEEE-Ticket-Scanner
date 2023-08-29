@@ -29,7 +29,6 @@ class ScanCubit extends Cubit<ScanState> {
         .catchError((error) => print("Failed to add user: $error"));
 
     var today = DateTime.now().day;
-    if (today >= 3 && today <= 7 || today == 28) {
       FirebaseFirestore.instance
           .collection('Day${today - 2}')
           .add(
@@ -43,7 +42,6 @@ class ScanCubit extends Cubit<ScanState> {
           )
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
-    }
   }
 
   Stream<QuerySnapshot> getUsers() {
