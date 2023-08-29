@@ -29,26 +29,24 @@ class ScanCubit extends Cubit<ScanState> {
         .catchError((error) => print("Failed to add user: $error"));
 
     var today = DateTime.now().day;
-      FirebaseFirestore.instance
-          .collection('Day${today - 2}')
-          .add(
-            {
-              "id": attendeeModel.id,
-              "attendeeCode": attendeeModel.attendeeCode,
-              "name": attendeeModel.name,
-              "university": attendeeModel.university,
-              "college": attendeeModel.college,
-            },
-          )
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
+    FirebaseFirestore.instance
+        .collection('Day${today - 2}')
+        .add(
+          {
+            "id": attendeeModel.id,
+            "attendeeCode": attendeeModel.attendeeCode,
+            "name": attendeeModel.name,
+            "university": attendeeModel.university,
+            "college": attendeeModel.college,
+          },
+        )
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 
   Stream<QuerySnapshot> getUsers() {
     var today = DateTime.now().day;
-    return FirebaseFirestore.instance
-        .collection('Day${today - 2}')
-        .snapshots();
+    return FirebaseFirestore.instance.collection('Day${today - 2}').snapshots();
   }
 
   void getUser(context, String attendeeCode) async {
