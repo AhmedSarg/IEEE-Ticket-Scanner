@@ -13,8 +13,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  Map _source = {ConnectivityResult.none: false};
   final NetworkConnectivity _networkConnectivity = NetworkConnectivity.instance;
+  Map _source = {ConnectivityResult.none: false};
   String string = 'Checking Internet Connection...';
   @override
   void initState() {

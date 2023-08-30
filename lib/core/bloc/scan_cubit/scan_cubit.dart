@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ieee_ticket_scanner/core/bloc/scan_cubit/scan_state.dart';
@@ -63,7 +65,7 @@ class ScanCubit extends Cubit<ScanState> {
           emit(SuccessState());
         } else {
           print("in else sent");
-          error = "couldn't connect to internet";
+          error = "couldn't connect to schedule api";
           emit(FailedState());
         }
       } else {
@@ -71,7 +73,10 @@ class ScanCubit extends Cubit<ScanState> {
         error = "ticket has been used today";
         emit(FailedState());
       }
-    } catch (e) {
+    } on SocketException catch(_) {
+      print("no internet connection");
+    }
+    catch (e) {
       error = "ticket not found";
       emit(FailedState());
     }

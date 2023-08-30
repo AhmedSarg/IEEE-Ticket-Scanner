@@ -54,11 +54,12 @@ class AttendeeService {
             : DateTime.now().month.toString()}/${DateTime.now().day.toString().length == 1
             ? "0${DateTime.now().day}"
             : DateTime.now().day.toString()}";
+    print("$attendeeId    $today");
     await dio.post(
         "https://ieee-bub.org/API/API/v1/event_attendee/flutter-2023/attendee_attend_days",
         data: {
           "data": {
-            "attendee_id": attendeeId,
+            "attendee_code": attendeeId,
             "day" : today,
           }
         }).then((value) {

@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -6,13 +8,13 @@ import 'package:ieee_ticket_scanner/core/bloc/scan_cubit/scan_cubit.dart';
 import 'package:ieee_ticket_scanner/core/utils/app_colors.dart';
 import 'package:ieee_ticket_scanner/features/model/attendee_model.dart';
 import 'package:ieee_ticket_scanner/features/screens/main_screen.dart';
-
 import '../../core/services/attendee_service.dart';
 
 class Scanner extends StatelessWidget {
   Scanner({super.key});
 
   final AttendeeService attendeeService = AttendeeService();
+
   late final AttendeeModel scannedAttendee;
 
   Future scanBarcode(context) async {
@@ -22,19 +24,32 @@ class Scanner extends StatelessWidget {
         "#ffffff", "Cancel", true, ScanMode.QR);
     try {
       BlocProvider.of<ScanCubit>(context).getUser(context, barcodeScanResult);
+    } on SocketException catch (_) {
+      print("No Internet Connection");
     } catch (e) {
-      throw Exception();
+      print(e);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Center(
       child: AnimatedButton(
         onPress: () async {
-          await scanBarcode(context);
-          tabController.index = 0;
+          try {
+            final result = await InternetAddress.lookup('example.com');
+            await scanBarcode(context);
+            tabController.index = 0;
+          } on SocketException catch (_) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text("No Internet Connection"),
+                ),
+              ),
+            );
+          }
         },
         transitionType: TransitionType.LEFT_BOTTOM_ROUNDER,
         text: 'Scan Ticket',
