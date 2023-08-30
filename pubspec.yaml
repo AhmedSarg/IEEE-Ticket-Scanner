@@ -51,7 +51,7 @@ dependencies:
   google_maps_flutter: ^2.2.8
   im_stepper: ^1.0.1+1
   image_picker: ^0.8.7+5
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.2.0
   shimmer: ^3.0.0
   simple_animations: ^4.2.0
   supercharged: ^2.1.1
@@ -68,6 +68,7 @@ dependencies:
   flutter_animated_button: ^2.0.3
   fl_chart: ^0.62.0
   cloud_firestore: ^4.9.0
+  introduction_screen: ^3.0.2
 
 dev_dependencies:
 
@@ -93,6 +94,10 @@ flutter:
   assets:
     - assets/images/ieee_logo.png
     - assets/images/bg.jpg
+    - assets/images/onboarding_accept.png
+    - assets/images/onboarding_audience.png
+    - assets/images/onboarding_reject.png
+    - assets/images/onboarding_scan.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

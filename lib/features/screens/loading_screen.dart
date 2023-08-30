@@ -5,6 +5,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ieee_ticket_scanner/core/services/check_internet.dart';
 import 'package:ieee_ticket_scanner/features/screens/main_screen.dart';
 
+import '../../main.dart';
+import 'onboarding_screen.dart';
+
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
 
@@ -16,6 +19,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   final NetworkConnectivity _networkConnectivity = NetworkConnectivity.instance;
   Map _source = {ConnectivityResult.none: false};
   String string = 'Checking Internet Connection...';
+
   @override
   void initState() {
     super.initState();
@@ -28,7 +32,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
           string = 'Connected';
           Timer(const Duration(seconds: 3), (() {
             Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const MainScreen()));
+              MaterialPageRoute(
+                builder: (context) => initScreen == 0 || initScreen == null
+                    ? const OnBoarding()
+                    : const MainScreen(),
+              ),
+            );
           }));
         } else {
           string = 'Network Error';
