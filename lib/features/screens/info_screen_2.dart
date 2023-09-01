@@ -48,7 +48,7 @@ class _InfoScreen2State extends State<InfoScreen2> {
           final AttendeeModel attendee =
               BlocProvider.of<DetailsCubit>(context).attendeeModel;
           var names = attendee.name.split(" ");
-          var name = "${names[0]} ${names[names.length - 1]}";
+          var name = "${names[0]} ${names.length - 1 > 0 ? names[names.length - 1] : ""}";
           return Container(
             width: double.infinity,
             height: double.infinity,
