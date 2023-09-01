@@ -35,7 +35,7 @@ class _InfoScreenState extends State<InfoScreen> {
         final AttendeeModel attendee =
             BlocProvider.of<ScanCubit>(context).attendeeModel;
         var names = attendee.name.split(" ");
-        var name = "${names[0]} ${names[names.length - 1]}";
+        var name = "${names[0]} ${names.length - 1 > 0 ? names[names.length - 1] : ""}";
         return Scaffold(
           body: Container(
             width: double.infinity,
