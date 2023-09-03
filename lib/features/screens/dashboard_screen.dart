@@ -10,7 +10,7 @@ import 'package:ieee_ticket_scanner/features/screens/history_screen.dart';
 import 'package:ieee_ticket_scanner/features/screens/main_screen.dart';
 import 'package:supercharged/supercharged.dart';
 
-const List<MaterialColor> pieChartColors = <MaterialColor>[
+const List<Color> pieChartColors = <Color>[
   Colors.indigo,
   Colors.orange,
   Colors.green,
@@ -29,6 +29,15 @@ const List<MaterialColor> pieChartColors = <MaterialColor>[
   Colors.lime,
   Colors.yellow,
   Colors.amber,
+  Color(0xff18fa9b),
+  Color(0xff91a6c7),
+  Color(0xff0062ff),
+  Color(0xffebabff),
+  Color(0xffff9e7a),
+  Color(0xff47153c),
+  Color(0xffff338f),
+  Color(0xff472215),
+  Color(0xff5cff8d),
 ];
 
 double sum(Map<String, double> map) {
