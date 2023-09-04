@@ -63,6 +63,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    print("builded");
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -71,9 +72,12 @@ class _DashboardState extends State<Dashboard> {
             StreamBuilder(
                 stream: BlocProvider.of<AnalyticsCubit>(context).getUsers(),
                 builder: (context, snapshot) {
+                  print("in stream");
                   if (snapshot.hasData) {
+                    print("has data");
                     return BlocBuilder<AnalyticsCubit, AnalyticsState>(
                         builder: (context, state) {
+                          print("in bloc builder");
                       BlocProvider.of<AnalyticsCubit>(context)
                           .fetchData(snapshot.data!.docs);
                       colleges =
@@ -81,7 +85,7 @@ class _DashboardState extends State<Dashboard> {
                       Map<String, int> days =
                           BlocProvider.of<AnalyticsCubit>(context).days;
                       List<int> values = [
-                        days["day-1"]!,
+                        157,
                         days["day-2"]!,
                         days["day-3"]!,
                         days["day-4"]!,
@@ -178,10 +182,12 @@ class _DashboardState extends State<Dashboard> {
                       }
                     });
                   } else if (snapshot.hasError) {
+                    print("has error");
                     return const Center(
                       child: Text("Connection Error"),
                     );
                   } else {
+                    print("loading");
                     return const Center(
                       child: CircularProgressIndicator(
                         color: AppColors.primary,

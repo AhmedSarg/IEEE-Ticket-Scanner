@@ -18,7 +18,9 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
 
   void fetchData(List<QueryDocumentSnapshot<Object?>> docs) async {
     emit(LoadingAnalyticsState());
-    late Map<String, double> thisColleges = {};
+    late Map<String, double> thisColleges = {
+      "others": 1,
+    };
 
     Map<String, int> thisDays = {
       "day-1": 0,
@@ -26,33 +28,31 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
       "day-3": 0,
       "day-4": 0,
       "day-5": 0,
-      "day-26": 0,
     };
-
-    getDay(1).listen((collection) {
-      thisDays["day-1"] = collection.size;
-      days["day-1"] = thisDays["day-1"]!.round();
-    });
-    getDay(2).listen((collection) {
-      thisDays["day-2"] = collection.size;
-      days["day-2"] = thisDays["day-2"]!;
-    });
-    getDay(3).listen((collection) {
-      thisDays["day-3"] = collection.size;
-      days["day-3"] = thisDays["day-3"]!;
-    });
-    getDay(4).listen((collection) {
-      thisDays["day-4"] = collection.size;
-      days["day-4"] = thisDays["day-4"]!;
-    });
-    getDay(5).listen((collection) {
-      thisDays["day-5"] = collection.size;
-      days["day-5"] = thisDays["day-5"]!;
-    });
-    getDay(27).listen((collection) {
-      thisDays["day-25"] = collection.size;
-      days["day-26"] = thisDays["day-26"]!.round();
-    });
+    if (DateTime.now().day >= 4) {
+      getDay(2).listen((collection) {
+        thisDays["day-2"] = collection.size;
+        days["day-2"] = thisDays["day-2"]!;
+      });
+    }
+    if (DateTime.now().day >= 5) {
+      getDay(3).listen((collection) {
+        thisDays["day-3"] = collection.size;
+        days["day-3"] = thisDays["day-3"]!;
+      });
+    }
+    if (DateTime.now().day >= 6) {
+      getDay(4).listen((collection) {
+        thisDays["day-4"] = collection.size;
+        days["day-4"] = thisDays["day-4"]!;
+      });
+    }
+    if (DateTime.now().day >= 7) {
+      getDay(5).listen((collection) {
+        thisDays["day-5"] = collection.size;
+        days["day-5"] = thisDays["day-5"]!;
+      });
+    }
 
     try {
       var today = DateTime.now().day;
@@ -62,7 +62,11 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
           if (thisColleges.containsKey(college)) {
             thisColleges[college] = thisColleges[college]! + 1;
           } else {
-            thisColleges[college] = 1;
+            if (thisColleges.length <= 7) {
+              thisColleges[college] = 1;
+            } else {
+              thisColleges["others"] = thisColleges["others"]! + 1;
+            }
           }
         });
         colleges = thisColleges;
@@ -76,6 +80,7 @@ class AnalyticsCubit extends Cubit<AnalyticsState> {
   }
 
   Stream<QuerySnapshot> getUsers() {
+    print("in get users");
     return FirebaseFirestore.instance
         .collection('ScannedAttendees')
         .snapshots();

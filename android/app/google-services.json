@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "449655289689",
-    "project_id": "ticket-scanner-7a283",
-    "storage_bucket": "ticket-scanner-7a283.appspot.com"
+    "project_number": "1093192662099",
+    "project_id": "ticket-scanner-163c1",
+    "storage_bucket": "ticket-scanner-163c1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:449655289689:android:c9a605cb0ed41e34e93e48",
+        "mobilesdk_app_id": "1:1093192662099:android:e8a8e39ec06180af8bdaa6",
         "android_client_info": {
           "package_name": "com.example.ieee_ticket_scanner"
         }
       },
       "oauth_client": [
         {
-          "client_id": "449655289689-b9ooisi4513qtsgiqcltl5e5lllpgh55.apps.googleusercontent.com",
+          "client_id": "1093192662099-627aanch2s98341rn7jk2s153va4imeq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC8Q_RdxO_53GZov11tL-9kzPsIl6hh4Dk"
+          "current_key": "AIzaSyBEAXBXxq_pjcS_WOFLYrQX6E8BjIYvBIM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "449655289689-b9ooisi4513qtsgiqcltl5e5lllpgh55.apps.googleusercontent.com",
+              "client_id": "1093192662099-627aanch2s98341rn7jk2s153va4imeq.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1093192662099-4tu0e4d3dttkns6cr578h6dplnhbm7e1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ieeeTicketScanner"
+              }
             }
           ]
         }
